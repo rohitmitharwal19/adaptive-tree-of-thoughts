@@ -1,102 +1,79 @@
-# Official Repo of Tree of Thoughts (ToT)
+ # Adaptive Tree of Thoughts (Adaptive-ToT)
 
-<p>
-    <a href="https://badge.fury.io/py/tree-of-thoughts-llm">
-        <img src="https://badge.fury.io/py/tree-of-thoughts-llm.svg">
-    </a>
-    <a href="https://www.python.org/">
-        <img alt="Build" src="https://img.shields.io/badge/Python-3.7+-1f425f.svg?color=purple">
-    </a>
-    <a href="https://copyright.princeton.edu/policy">
-        <img alt="License" src="https://img.shields.io/badge/License-MIT-blue">
-    </a>
-    <a href="https://zenodo.org/badge/latestdoi/642099326">
-        <img src="https://zenodo.org/badge/642099326.svg">
-    </a>
-</p>
+**Dynamic Beam Pruning and Early-Exit Verification for Token-Efficient LLM Reasoning**
 
-![teaser](pics/teaser.png)
+[![Paper Reference](https://shields.io)](https://arxiv.org)
+[![Backend](https://shields.io)](#)
 
-Official implementation for paper [Tree of Thoughts: Deliberate Problem Solving with Large Language Models](https://arxiv.org/abs/2305.10601) with code, prompts, model outputs.
-Also check [its tweet thread](https://twitter.com/ShunyuYao12/status/1659357547474681857) in 1min.
+This repository reproduces the official Princeton NLP **Tree of Thoughts (ToT)** framework and introduces **Adaptive-ToT**—an algorithmic extension designed to reduce redundant LLM API calls, token consumption, and latency on lightweight models.
 
+---
 
+## Key Innovations & Engineering Contributions
 
+1. **Confidence-Driven Dynamic Beam Pruning (`src/tot/methods/adaptive_bfs.py`):**
+   - Automatically filters out dead-end states (`value <= 0.01`).
+   - Dynamically collapses the search beam width to $b_t = 1$ whenever a high-confidence (`sure`, $v_{\max} \ge 20$) path is detected, avoiding wasted exploration across parallel branches.
+2. **Early-Exit Terminal Verification (`src/tot/methods/adaptive_bfs.py`):**
+   - Evaluates retained intermediate states against `task.test_output()` at every depth and halts search expansion immediately upon finding a valid terminal solution.
+3. **Modern Gemini REST API Adapter (`src/tot/models.py`):**
+   - Migrates the legacy 2023 OpenAI SDK wrapper to Google's `gemini-3.5-flash-lite` REST endpoint with `x-goog-api-key` authentication, token usage tracking, and resilient `429`/`503` rate-limit retry handling.
+4. **Automated Search-Tree & Efficiency Visualization (`compare_diagrams.py`):**
+   - Parses JSON execution logs to render side-by-side color-coded search trees and token/node efficiency comparisons.
 
+---
 
-## Setup
-1. Set up OpenAI API key and store in environment variable ``OPENAI_API_KEY`` (see [here](https://help.openai.com/en/articles/5112595-best-practices-for-api-key-safety)). 
+## Visual Comparison: Original BFS vs. Adaptive-ToT
 
-2. Install `tot` package in two ways:
-- Option 1: Install from PyPI
+### Search Tree Exploration & Pruning
+![Search Tree Comparison](tree_comparison.png)
+
+### Node & Token Consumption Efficiency
+![Efficiency Comparison](efficiency_chart.png)
+
+---
+
+## Quickstart & Reproducibility
+
+### 1. Environment Setup
 ```bash
-pip install tree-of-thoughts-llm
+git clone https://github.com
+cd adaptive-tree-of-thoughts
+pip install -e . --no-deps
+pip install requests matplotlib numpy sympy
 ```
-- Option 2: Install from source
+
+### 2. Set Your Gemini API Key
+**Windows PowerShell:**
+```powershell
+\$env:OPENAI_API_KEY="YOUR_GEMINI_API_KEY"
+```
+
+### 3. Run Original Baseline vs. Adaptive-ToT
+* **Original Paper Baseline (`bfs`):**
+  ```bash
+  python run.py --backend gemini-3.5-flash-lite --task game24 --task_start_index 900 --task_end_index 901 --method_search bfs --method_generate propose --method_evaluate value --method_select greedy --n_evaluate_sample 1 --n_select_sample 2
+  ```
+
+* **Improved Algorithm (`adaptive`):**
+  ```bash
+  python run.py --backend gemini-3.5-flash-lite --task game24 --task_start_index 900 --task_end_index 901 --method_search adaptive --method_generate propose --method_evaluate value --method_select greedy --n_evaluate_sample 1 --n_select_sample 2
+  ```
+
+### 4. Generate Comparison Diagrams
 ```bash
-git clone https://github.com/princeton-nlp/tree-of-thought-llm
-cd tree-of-thought-llm
-pip install -r requirements.txt
-pip install -e .  # install `tot` package
+python compare_diagrams.py
 ```
 
+---
 
-## Quick Start
-The following minimal script will attempt to solve the game of 24 with `4 5 6 10` (might be a bit slow as it's using GPT-4):
-```python
-import argparse
-from tot.methods.bfs import solve
-from tot.tasks.game24 import Game24Task
-
-args = argparse.Namespace(backend='gpt-4', temperature=0.7, task='game24', naive_run=False, prompt_sample=None, method_generate='propose', method_evaluate='value', method_select='greedy', n_generate_sample=1, n_evaluate_sample=3, n_select_sample=5)
-
-task = Game24Task()
-ys, infos = solve(args, task, 900)
-print(ys[0])
-```
-
-And the output would be something like (note it's not deterministic, and sometimes the output can be wrong):
-```
-10 - 4 = 6 (left: 5 6 6)
-5 * 6 = 30 (left: 6 30)
-30 - 6 = 24 (left: 24)
-Answer: (5 * (10 - 4)) - 6 = 24
-```
-
-## Paper Experiments
-
-Run experiments via ``sh scripts/{game24, text, crosswords}/{standard_sampling, cot_sampling, bfs}.sh``, except in crosswords we use a DFS algorithm for ToT, which can be run via ``scripts/crosswords/search_crosswords-dfs.ipynb``.
-
-The very simple ``run.py`` implements the ToT + BFS algorithm, as well as the naive IO/CoT sampling. Some key arguments:
-
-- ``--naive_run``: if True, run naive IO/CoT sampling instead of ToT + BFS.
--  ``--prompt_sample`` (choices=[``standard``, ``cot``]): sampling prompt
-- ``--method_generate`` (choices=[``sample``, ``propose``]): thought generator, whether to sample independent thoughts (used in Creative Writing) or propose sequential thoughts (used in Game of 24)
-- ``--method_evaluate`` (choices=[``value``, ``vote``]): state evaluator, whether to use the value states independently (used in Game of 24) or vote on states together (used in Creative Writing)
-- ``--n_generate_sample``: number of times to prompt for thought generation
-- ``--n_evaluate_sample``: number of times to prompt for state evaluation
-- ``--n_select_sample``: number of states to keep from each step (i.e. ``b`` in the paper's ToT + BFS algorithm)
-
-
-
-## Paper Trajectories
-``logs/`` contains all the trajectories from the paper's experiments, except for ``logs/game24/gpt-4_0.7_propose1_value3_greedy5_start900_end1000.json`` which was reproduced after the paper (as the original experiment was done in a notebook) and achieved a 69\% score instead of the original 74\% score due to randomness in GPT decoding. We hope to aggregate multiple runs in the future to account for sampling randomness and update the paper, but this shouldn't affect the main conclusions of the paper.
-
-## How to Add A New Task
-Setting up a new task is easy, and mainly involves two steps.
-* Set up a new task class in ``tot/tasks/`` and task files in ``tot/data/``. See ``tot/tasks/game24.py`` for an example. Add the task to ``tot/tasks/__init__.py``.
-* Set up task-specific prompts in ``tot/prompts/``. See ``tot/prompts/game24.py`` for an example. Depending on the nature of the task, choose ``--method_generate`` (choices=[``sample``, ``propose``]) and ``--method_evaluate`` (choices=[``value``, ``vote``]) and their corresponding prompts. 
-
-## Citations
-Please cite the paper and star this repo if you use ToT and find it interesting/useful, thanks! Feel free to contact shunyuyao.cs@gmail.com or open an issue if you have any questions.
-
+## Citation & Acknowledgment
+Built upon the original Tree of Thoughts codebase by Yao et al. (2023):
 ```bibtex
-@misc{yao2023tree,
-      title={{Tree of Thoughts}: Deliberate Problem Solving with Large Language Models}, 
-      author={Shunyu Yao and Dian Yu and Jeffrey Zhao and Izhak Shafran and Thomas L. Griffiths and Yuan Cao and Karthik Narasimhan},
-      year={2023},
-      eprint={2305.10601},
-      archivePrefix={arXiv},
-      primaryClass={cs.CL}
+@inproceedings{yao2023tree,
+  title={Tree of Thoughts: Deliberate Problem Solving with Large Language Models},
+  author={Yao, Shunyu and Yu, Dian and Zhao, Jeffrey and Shafran, Izhak and Griffiths, Thomas L and Cao, Yuan and Narasimhan, Karthik},
+  booktitle={Advances in Neural Information Processing Systems (NeurIPS)},
+  year={2023}
 }
 ```
