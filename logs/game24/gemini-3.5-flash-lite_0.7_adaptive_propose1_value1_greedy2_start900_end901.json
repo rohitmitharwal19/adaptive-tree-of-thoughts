@@ -17,38 +17,36 @@
                     "6 * 4 = 24 (left: 5 10 24)\n",
                     "10 + 4 = 14 (left: 5 6 14)\n",
                     "10 - 4 = 6 (left: 5 6 6)\n",
-                    "10 / 5 = 2 (left: 2 4 6)\n",
+                    "10 / 5 = 2 (left: 4 2 6)\n",
                     "6 + 5 = 11 (left: 4 10 11)\n",
                     "6 - 5 = 1 (left: 1 4 10)\n",
                     "6 * 5 = 30 (left: 4 10 30)\n",
                     "10 + 5 = 15 (left: 4 6 15)\n",
                     "10 - 5 = 5 (left: 4 5 6)\n",
                     "10 + 6 = 16 (left: 4 5 16)\n",
-                    "10 - 6 = 4 (left: 4 4 5)\n",
-                    "10 / 5 = 2 (left: 2 4 6)\n"
+                    "10 - 6 =\n"
                 ],
                 "values": [
-                    20.0,
-                    1.0,
-                    1.0,
-                    1.0,
+                    0.001,
                     1.0,
                     1.0,
                     20.0,
                     1.0,
                     1.0,
-                    20.0,
+                    0.0,
+                    1.0,
+                    0.001,
+                    1.0,
                     1.0,
                     0.001,
                     20.0,
-                    1.0,
+                    0.0,
                     20.0,
                     1.0,
-                    0.001,
-                    0
+                    0.001
                 ],
                 "select_new_ys": [
-                    "Possible next steps:\n"
+                    "4 * 5 = 20 (left: 6 10 20)\n"
                 ],
                 "dynamic_beam_width": 1
             },
@@ -56,46 +54,32 @@
                 "step": 1,
                 "x": "4 5 6 10",
                 "ys": [
-                    "Possible next steps:\n"
+                    "4 * 5 = 20 (left: 6 10 20)\n"
                 ],
                 "new_ys": [
-                    "Possible next steps:\nInput: 2 3 6 12\n",
-                    "Possible next steps:\nPossible next steps:\n",
-                    "Possible next steps:\n2 + 3 = 5 (left: 5 6 12)\n",
-                    "Possible next steps:\n3 - 2 = 1 (left: 1 6 12)\n",
-                    "Possible next steps:\n2 * 3 = 6 (left: 6 6 12)\n",
-                    "Possible next steps:\n6 / 2 = 3 (left: 3 3 12)\n",
-                    "Possible next steps:\n6 - 2 = 4 (left: 3 4 12)\n",
-                    "Possible next steps:\n6 + 2 = 8 (left: 3 8 12)\n",
-                    "Possible next steps:\n12 / 2 = 6 (left: 3 6 6)\n",
-                    "Possible next steps:\n12 - 2 = 10 (left: 2 3 10)\n",
-                    "Possible next steps:\n12 / 3 = 4 (left: 2 4 6)\n",
-                    "Possible next steps:\n12 - 3 = 9 (left: 2 3 6)\n",
-                    "Possible next steps:\n12 + 3 = 15 (left: 2 6 15)\n",
-                    "Possible next steps:\n12 / 6 = 2 (left: 2 2 3)\n",
-                    "Possible next steps:\n12 - 6 = 6 (left: 2 3 6)\n",
-                    "Possible next steps:\n12 + 6 = 18 (left: 2 3 18)\n"
+                    "4 * 5 = 20 (left: 6 10 20)\nPossible next steps:\n",
+                    "4 * 5 = 20 (left: 6 10 20)\n6 + 10 = 16 (left: 16 20)\n",
+                    "4 * 5 = 20 (left: 6 10 20)\n20 - 10 = 10 (left: 6 10)\n",
+                    "4 * 5 = 20 (left: 6 10 20)\n20 / 10 = 2 (left: 2 6)\n",
+                    "4 * 5 = 20 (left: 6 10 20)\n20 - 6 = 14 (left: 10 14)\n",
+                    "4 * 5 = 20 (left: 6 10 20)\n10 - 6 = 4 (left: 4 20)\n",
+                    "4 * 5 = 20 (left: 6 10 20)\n10 / 2 = 5 (left: 3 20 - wait: 6 / 2 = 3) -> 10 / ? (not directly divisible)\n",
+                    "4 * 5 = 20 (left: 6 10 20)\n6 * 10 = 60 (left: 20 60)\n",
+                    "4 * 5 = 20 (left: 6 10 20)\n20 + 10 = 30 (left: 6 30)\n"
                 ],
                 "values": [
                     0.001,
-                    20.0,
-                    1.0,
-                    1.0,
-                    20.0,
-                    1.0,
-                    20.0,
-                    20.0,
-                    20.0,
-                    20.0,
-                    20.0,
-                    1.0,
-                    1.0,
                     0.001,
-                    1.0,
-                    1.0
+                    0.0,
+                    0.0,
+                    20.0,
+                    20.0,
+                    0.001,
+                    0.001,
+                    20.0
                 ],
                 "select_new_ys": [
-                    "Possible next steps:\nPossible next steps:\n"
+                    "4 * 5 = 20 (left: 6 10 20)\n20 - 6 = 14 (left: 10 14)\n"
                 ],
                 "dynamic_beam_width": 1
             },
@@ -103,16 +87,24 @@
                 "step": 2,
                 "x": "4 5 6 10",
                 "ys": [
-                    "Possible next steps:\nPossible next steps:\n"
+                    "4 * 5 = 20 (left: 6 10 20)\n20 - 6 = 14 (left: 10 14)\n"
                 ],
                 "new_ys": [
-                    "Possible next steps:\nPossible next steps:\nError: No input numbers provided. Please provide a set of numbers (for example: `Input: 3 5 7 10`) so I can generate the possible next steps.\n"
+                    "4 * 5 = 20 (left: 6 10 20)\n20 - 6 = 14 (left: 10 14)\nPossible next steps:\n",
+                    "4 * 5 = 20 (left: 6 10 20)\n20 - 6 = 14 (left: 10 14)\n10 + 14 = 24 (left: 24)\n",
+                    "4 * 5 = 20 (left: 6 10 20)\n20 - 6 = 14 (left: 10 14)\n14 - 10 = 4 (left: 4)\n",
+                    "4 * 5 = 20 (left: 6 10 20)\n20 - 6 = 14 (left: 10 14)\n10 * 14 = 140 (left: 140)\n",
+                    "4 * 5 = 20 (left: 6 10 20)\n20 - 6 = 14 (left: 10 14)\n14 / 10 = 1.4 (left: 1.4)\n"
                 ],
                 "values": [
+                    0.001,
+                    20.0,
+                    0.001,
+                    0.001,
                     0.001
                 ],
                 "select_new_ys": [
-                    "Possible next steps:\nPossible next steps:\nError: No input numbers provided. Please provide a set of numbers (for example: `Input: 3 5 7 10`) so I can generate the possible next steps.\n"
+                    "4 * 5 = 20 (left: 6 10 20)\n20 - 6 = 14 (left: 10 14)\n10 + 14 = 24 (left: 24)\n"
                 ],
                 "dynamic_beam_width": 1
             },
@@ -120,32 +112,33 @@
                 "step": 3,
                 "x": "4 5 6 10",
                 "ys": [
-                    "Possible next steps:\nPossible next steps:\nError: No input numbers provided. Please provide a set of numbers (for example: `Input: 3 5 7 10`) so I can generate the possible next steps.\n"
+                    "4 * 5 = 20 (left: 6 10 20)\n20 - 6 = 14 (left: 10 14)\n10 + 14 = 24 (left: 24)\n"
                 ],
                 "new_ys": [
-                    "Possible next steps:\nPossible next steps:\nError: No input numbers provided. Please provide a set of numbers (for example: `Input: 3 5 7 10`) so I can generate the possible next steps.\nError: No input numbers provided. Please provide a set of numbers (for example: `Input: 3 5 7 10`)\n"
+                    "4 * 5 = 20 (left: 6 10 20)\n20 - 6 = 14 (left: 10 14)\n10 + 14 = 24 (left: 24)\nAnswer: (4 * 5 - 6) + 10 = 24\n"
                 ],
                 "values": [
-                    0
+                    0.001
                 ],
                 "select_new_ys": [
-                    "Possible next steps:\nPossible next steps:\nError: No input numbers provided. Please provide a set of numbers (for example: `Input: 3 5 7 10`) so I can generate the possible next steps.\nError: No input numbers provided. Please provide a set of numbers (for example: `Input: 3 5 7 10`)\n"
+                    "4 * 5 = 20 (left: 6 10 20)\n20 - 6 = 14 (left: 10 14)\n10 + 14 = 24 (left: 24)\nAnswer: (4 * 5 - 6) + 10 = 24\n"
                 ],
                 "dynamic_beam_width": 1
             }
         ],
+        "early_stopped_at": 3,
         "idx": 900,
         "ys": [
-            "Possible next steps:\nPossible next steps:\nError: No input numbers provided. Please provide a set of numbers (for example: `Input: 3 5 7 10`) so I can generate the possible next steps.\nError: No input numbers provided. Please provide a set of numbers (for example: `Input: 3 5 7 10`)\n"
+            "4 * 5 = 20 (left: 6 10 20)\n20 - 6 = 14 (left: 10 14)\n10 + 14 = 24 (left: 24)\nAnswer: (4 * 5 - 6) + 10 = 24\n"
         ],
         "infos": [
             {
-                "r": 0
+                "r": 1
             }
         ],
         "usage_so_far": {
-            "completion_tokens": 2386,
-            "prompt_tokens": 13685,
+            "completion_tokens": 2139,
+            "prompt_tokens": 13236,
             "cost": 0
         }
     }
