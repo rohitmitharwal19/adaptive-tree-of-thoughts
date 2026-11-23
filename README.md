@@ -2,8 +2,9 @@
 
 **Dynamic Beam Pruning and Early-Exit Verification for Token-Efficient LLM Reasoning**
 
-[![Paper Reference](https://shields.io)](https://arxiv.org)
-[![Backend](https://shields.io)](#)
+ [![Python](https://img.shields.io/badge/python-3.9%2B-blue)](https://www.python.org)
+[![Backend](https://img.shields.io/badge/backend-Gemini%203.5%20Flash--Lite-orange)](https://ai.google.dev)
+[![Based on](https://img.shields.io/badge/based%20on-Tree%20of%20Thoughts-green)](https://arxiv.org/abs/2305.10601)
 
 This repository reproduces the official Princeton NLP **Tree of Thoughts (ToT)** framework and introduces **Adaptive-ToT**—an algorithmic extension designed to reduce redundant LLM API calls, token consumption, and latency on lightweight models.
 
@@ -37,7 +38,7 @@ This repository reproduces the official Princeton NLP **Tree of Thoughts (ToT)**
 
 ### 1. Environment Setup
 ```bash
-git clone https://github.com
+ git clone https://github.com/rohitmitharwal19/adaptive-tree-of-thoughts.git
 cd adaptive-tree-of-thoughts
 pip install -e . --no-deps
 pip install requests matplotlib numpy sympy
@@ -46,7 +47,7 @@ pip install requests matplotlib numpy sympy
 ### 2. Set Your Gemini API Key
 **Windows PowerShell:**
 ```powershell
-\$env:OPENAI_API_KEY="YOUR_GEMINI_API_KEY"
+$env:OPENAI_API_KEY="YOUR_GEMINI_API_KEY"
 ```
 
 ### 3. Run Original Baseline vs. Adaptive-ToT

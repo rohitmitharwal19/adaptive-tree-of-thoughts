@@ -5,16 +5,13 @@ with open('README.md', 'r', encoding='utf-8') as fh:
 
 
 setuptools.setup(
-    name='tree-of-thoughts-llm',
-    author='Shunyu Yao',
-    author_email='shunyuyao.cs@gmail.com',
-    description='Official Implementation of "Tree of Thoughts: Deliberate Problem Solving with Large Language Models"',
-    keywords='tree-search, large-language-models, llm, prompting, tree-of-thoughts',
-    long_description=long_description,
-    long_description_content_type='text/markdown',
-    url='https://github.com/princeton-nlp/tree-of-thought-llm',
+    name='adaptive-tree-of-thoughts',
+    author='Rohit Mitharwal',
+    author_email='rohitmitharwal19@gmail.com',
+    description='Adaptive Tree of Thoughts: Dynamic Beam Pruning and Early-Exit Verification for Token-Efficient LLM Reasoning',
+    url='https://github.com/rohitmitharwal19/adaptive-tree-of-thoughts',
     project_urls={
-        'Homepage': 'https://github.com/princeton-nlp/tree-of-thought-llm',
+        'Homepage': 'https://github.com/rohitmitharwal19/adaptive-tree-of-thoughts',
     },
     package_dir={'': 'src'},
     packages=setuptools.find_packages(where='src'),
